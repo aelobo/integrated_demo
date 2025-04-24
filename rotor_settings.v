@@ -244,13 +244,6 @@ module rotor_settings (
     rotary_letter rotor_start2(.clock(i_clock), .reset(reset), .enable(rotor_start_2_en), .reset_val(5'b00000), .rotary_a(rotary_a), .rotary_b(rotary_b), .letter(rotor_start_2_temp), .increment(rotor_2_increment_out));
     rotary_letter rotor_start1(.clock(i_clock), .reset(reset), .enable(rotor_start_1_en), .reset_val(5'b00000), .rotary_a(rotary_a), .rotary_b(rotary_b), .letter(rotor_start_1_temp), .increment(rotor_1_increment_out));
 
-    // rotary_letter  ring_2(.clock(i_clock), .reset(reset), .enable(rotor_ring_2_en), .reset_val(5'b00000), .rotary_a(rotary_a), .rotary_b(rotary_b), .letter(rotor_ring_2_temp), .quad_turned());
-    // rotary_letter  ring_1(.clock(i_clock), .reset(reset), .enable(rotor_ring_1_en), .reset_val(5'b00000), .rotary_a(rotary_a), .rotary_b(rotary_b), .letter(rotor_ring_1_temp), .quad_turned());
-
-    // rotary_letter rotor_start3(.clock(i_clock), .reset(reset), .enable(rotor_start_3_en), .reset_val(5'b00000), .rotary_a(rotary_a), .rotary_b(rotary_b), .letter(rotor_start_3_temp), .quad_turned(turned_3_temp));
-    // rotary_letter rotor_start2(.clock(i_clock), .reset(reset), .enable(rotor_start_2_en), .reset_val(5'b00000), .rotary_a(rotary_a), .rotary_b(rotary_b), .letter(rotor_start_2_temp), .quad_turned(turned_2_temp));
-    // rotary_letter rotor_start1(.clock(i_clock), .reset(reset), .enable(rotor_start_1_en), .reset_val(5'b00000), .rotary_a(rotary_a), .rotary_b(rotary_b), .letter(rotor_start_1_temp), .quad_turned(turned_1_temp));
-
 endmodule
 
 

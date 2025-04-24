@@ -106,6 +106,8 @@ wire 		[4:0]	letter;
 reg			[4:0]	letter_out;
 wire				quad_turned;
 
+wire 		[7:0] 	rotor_sel;
+
 
 wire rotor_3_increment;
 wire rotor_2_increment;
@@ -245,14 +247,37 @@ always @(posedge CLOCK_50) begin
     end
 end
 
-assign rotor_start_3_sel    =  (SW_sync == {10'b00_000_000_01});
-assign rotor_num_3_sel      =  (SW_sync == {10'b00_000_000_10});
-assign rotor_ring_2_sel     =  (SW_sync == {10'b00_000_001_00});
-assign rotor_start_2_sel    =  (SW_sync == {10'b00_000_010_00});
-assign rotor_num_2_sel      =  (SW_sync == {10'b00_000_100_00});
-assign rotor_ring_1_sel     =  (SW_sync == {10'b00_001_000_00});
-assign rotor_start_1_sel    =  (SW_sync == {10'b00_010_000_00});
-assign rotor_num_1_sel      =  (SW_sync == {10'b00_100_000_00});
+// assign rotor_start_3_sel    =  (SW_sync == {10'b00_000_000_01});
+// assign rotor_num_3_sel      =  (SW_sync == {10'b00_000_000_10});
+// assign rotor_ring_2_sel     =  (SW_sync == {10'b00_000_001_00});
+// assign rotor_start_2_sel    =  (SW_sync == {10'b00_000_010_00});
+// assign rotor_num_2_sel      =  (SW_sync == {10'b00_000_100_00});
+// assign rotor_ring_1_sel     =  (SW_sync == {10'b00_001_000_00});
+// assign rotor_start_1_sel    =  (SW_sync == {10'b00_010_000_00});
+// assign rotor_num_1_sel      =  (SW_sync == {10'b00_100_000_00});
+
+// assign rotor_start_3_sel    =  rotor_sel[0];
+// assign rotor_num_3_sel      =  rotor_sel[1];
+// assign rotor_ring_2_sel     =  rotor_sel[2];
+// assign rotor_start_2_sel    =  rotor_sel[3];
+// assign rotor_num_2_sel      =  rotor_sel[4];
+// assign rotor_ring_1_sel     =  rotor_sel[5];
+// assign rotor_start_1_sel    =  rotor_sel[6];
+// assign rotor_num_1_sel      =  rotor_sel[7];
+
+assign rotor_start_3_sel    =  ~button_sync[7];
+assign rotor_num_3_sel      =  ~button_sync[6];
+assign rotor_ring_2_sel     =  ~button_sync[5];
+assign rotor_start_2_sel    =  ~button_sync[4];
+assign rotor_num_2_sel      =  ~button_sync[3];
+assign rotor_ring_1_sel     =  ~button_sync[2];
+assign rotor_start_1_sel    =  ~button_sync[1];
+assign rotor_num_1_sel      =  ~button_sync[0];
+
+
+
+
+// button_fsm fsm(.clock(CLOCK_50), .reset(~KEY_sync[0]), .button_sync(~button_sync[7:0]), .rotor_sel(rotor_sel[7:0]));
 
 
 // button_press_fsm r2_ring    (.i_clock(CLOCK_50), .reset(~KEY_sync[0]), .press_in(~button_sync[2]), .press_out(rotor_2_ring_increment));
