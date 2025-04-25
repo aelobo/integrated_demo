@@ -256,14 +256,14 @@ end
 // assign rotor_start_1_sel    =  (SW_sync == {10'b00_010_000_00});
 // assign rotor_num_1_sel      =  (SW_sync == {10'b00_100_000_00});
 
-// assign rotor_start_3_sel    =  rotor_sel[0];
-// assign rotor_num_3_sel      =  rotor_sel[1];
-// assign rotor_ring_2_sel     =  rotor_sel[2];
-// assign rotor_start_2_sel    =  rotor_sel[3];
-// assign rotor_num_2_sel      =  rotor_sel[4];
-// assign rotor_ring_1_sel     =  rotor_sel[5];
-// assign rotor_start_1_sel    =  rotor_sel[6];
-// assign rotor_num_1_sel      =  rotor_sel[7];
+// assign rotor_start_3_sel    =  rotor_sel[7];
+// assign rotor_num_3_sel      =  rotor_sel[6];
+// assign rotor_ring_2_sel     =  rotor_sel[5];
+// assign rotor_start_2_sel    =  rotor_sel[4];
+// assign rotor_num_2_sel      =  rotor_sel[3];
+// assign rotor_ring_1_sel     =  rotor_sel[2];
+// assign rotor_start_1_sel    =  rotor_sel[1];
+// assign rotor_num_1_sel      =  rotor_sel[0];
 
 assign rotor_start_3_sel    =  ~button_sync[7];
 assign rotor_num_3_sel      =  ~button_sync[6];
@@ -431,16 +431,25 @@ assign HEX1 = 7'h7F;
 // assign HEX4 = 7'h7F;
 // assign HEX5 = 7'h7F;
 
-assign LEDR[0] = rotor_3_increment;
-assign LEDR[1] = rotor_3_num_increment;
-assign LEDR[2] = rotor_2_ring_increment;
-assign LEDR[3] = rotor_2_increment;
-assign LEDR[4] = rotor_2_num_increment;
-assign LEDR[5] = rotor_1_ring_increment;
-assign LEDR[6] = rotor_1_increment;
-assign LEDR[7] = rotor_1_num_increment; ///
+// assign LEDR[0] = rotor_3_increment;
+// assign LEDR[1] = rotor_3_num_increment;
+// assign LEDR[2] = rotor_2_ring_increment;
+// assign LEDR[3] = rotor_2_increment;
+// assign LEDR[4] = rotor_2_num_increment;
+// assign LEDR[5] = rotor_1_ring_increment;
+// assign LEDR[6] = rotor_1_increment;
+// assign LEDR[7] = rotor_1_num_increment; ///
 
-assign LEDR[8] = quad_increment;
+assign LEDR[0] = ~button_sync[7];
+assign LEDR[1] = ~button_sync[6];
+assign LEDR[2] = ~button_sync[5];
+assign LEDR[3] = ~button_sync[4];
+assign LEDR[4] = ~button_sync[3];
+assign LEDR[5] = ~button_sync[2];
+assign LEDR[6] = ~button_sync[1];
+assign LEDR[7] = ~button_sync[0]; 
+
+// assign LEDR[8] = quad_increment;
 
 
 /*****************************************************************************
@@ -601,57 +610,79 @@ assign LEDR[8] = quad_increment;
     );
 
 
+	wire [7:0] c7_in, c5_in, c4_in, c2_in, c1_in;
+	wire [3:0] c6_in, c3_in, c0_in;
+
+	wire [7:0] c7_out, c5_out, c4_out, c2_out, c1_out;
+	wire [3:0] c6_out, c3_out, c0_out;
 
 
+	assign	c7_in = {3'b0, rotor3_out[4:0]} + 8'h40;
+	assign 	c6_in = {rotor3_num[3:0] + 4'b1};
+	assign 	c5_in = {3'b0, rotor2_ring[4:0]} + 8'h41;
+	assign	c4_in = {3'b0, rotor2_out[4:0]} + 8'h41;
+	assign 	c3_in = {rotor2_num[3:0] + 4'b1};
+	assign	c2_in = {3'b0, rotor1_ring[4:0]} + 8'h41;
+	assign	c1_in = {3'b0, rotor1_out[4:0]} + 8'h41;
+	assign	c0_in = {rotor1_num[3:0] + 4'b1};
 
 
+	max_c7_inputs	c7_input(.button_sync(~button_sync[7:0]), .max_in(c7_in), .max_out(c7_out));
+	max_c6_inputs 	c6_input(.button_sync(~button_sync[7:0]), .max_in(c6_in), .max_out(c6_out));
+	max_c5_inputs 	c5_input(.button_sync(~button_sync[7:0]), .max_in(c5_in), .max_out(c5_out));
+	max_c4_inputs 	c4_input(.button_sync(~button_sync[7:0]), .max_in(c4_in), .max_out(c4_out));
+	max_c3_inputs 	c3_input(.button_sync(~button_sync[7:0]), .max_in(c3_in), .max_out(c3_out));
+	max_c2_inputs 	c2_input(.button_sync(~button_sync[7:0]), .max_in(c2_in), .max_out(c2_out));
+	max_c1_inputs 	c1_input(.button_sync(~button_sync[7:0]), .max_in(c1_in), .max_out(c1_out));
+	max_c0_inputs 	c0_input(.button_sync(~button_sync[7:0]), .max_in(c0_in), .max_out(c0_out));
+	
 
 
     // ROTOR 3 STARTING POSITION
     ASCII_to_MAX C7 (
-        .ascii			    ({3'b0, rotor3_out[4:0]} + 8'h40),
+        .ascii			    (c7_out),
         .seven_seg_display	(c7)
     );
 
     // ROTOR 3 ROTOR NUMBER
     Decimal_to_MAX C6 (
-        .decimal			({rotor3_num[3:0] + 4'b1}),    // FINISH
+        .decimal			(c6_out),    // FINISH
         .seven_seg_display	(c6)
     );
 
     // ROTOR 2 RING POSITION
     ASCII_to_MAX C5 (
-        .ascii			    ({3'b0, rotor2_ring[4:0]} + 8'h41),   // FINISH
+        .ascii			    (c5_out),   // FINISH
         .seven_seg_display	(c5)
     );
 
     // ROTOR 2 STARTING POSITION
     ASCII_to_MAX C4 (
-        .ascii			    ({3'b0, rotor2_out[4:0]} + 8'h41),
+        .ascii			    (c4_out),
         .seven_seg_display	(c4)
     );
 
     // ROTOR 2 ROTOR NUMBER
     Decimal_to_MAX C3 (                                  // NOT ASCII
-        .decimal			({rotor2_num[3:0] + 4'b1}),   // FINISH
+        .decimal			(c3_out),   // FINISH
         .seven_seg_display	(c3)
     );
 
     // ROTOR 1 RING POSITION
     ASCII_to_MAX C2 (
-        .ascii			    ({3'b0, rotor1_ring[4:0]} + 8'h41),  // FINISH
+        .ascii			    (c2_out),  // FINISH
         .seven_seg_display	(c2)
     );
 
     // ROTOR 1 STARTING POSITION
     ASCII_to_MAX C1 (
-        .ascii			    ({3'b0, rotor1_out[4:0]} + 8'h41),
+        .ascii			    (c1_out),
         .seven_seg_display	(c1)
     );
 
     // ROTOR 1 ROTOR NUMBER
     Decimal_to_MAX C0 (                                  // NOT ASCII
-        .decimal			({rotor1_num[3:0] + 4'b1}),   // FINISH
+        .decimal			(c0_out),   // FINISH
         .seven_seg_display	(c0)
     );
 
