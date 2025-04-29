@@ -266,7 +266,7 @@ assign rotor_ring_1_sel     =  ~button_sync[2];
 assign rotor_start_1_sel    =  ~button_sync[1];
 assign rotor_num_1_sel      =  ~button_sync[0];
 
-assign GPIO[5] = clk_out; // shift register
+assign GPIO[32] = clk_out; // shift register
 
 
 /*****************************************************************************
@@ -340,8 +340,8 @@ assign GPIO[5] = clk_out; // shift register
     );
 
 	// Rotary Encoder Synchronizer
-	Synchronizer #(1) SyncA (.clock(CLOCK_50), .async(GPIO[35]), .sync(A_sync));
-	Synchronizer #(1) SyncB (.clock(CLOCK_50), .async(GPIO[33]), .sync(B_sync));
+	Synchronizer #(1) SyncA (.clock(CLOCK_50), .async(GPIO[0]), .sync(A_sync));
+	Synchronizer #(1) SyncB (.clock(CLOCK_50), .async(GPIO[2]), .sync(B_sync));
 
     // Plaintext on HEX0, Ciphertext on HEX2
     Scan_Code_to_Seven_Segment 	Segment0 (.scan_code(history[7:0]), .seven_seg_display(HEX0));
@@ -378,9 +378,9 @@ assign GPIO[5] = clk_out; // shift register
         .c5                 (c5),
         .c6                 (c6),
         .c7                 (c7), 
-        .PIN_13             (GPIO[4]),
-        .PIN_12             (GPIO[0]),
-        .PIN_11             (GPIO[2]),
+        .PIN_13             (GPIO[28]), // CLK
+        .PIN_12             (GPIO[24]), // DIN
+        .PIN_11             (GPIO[26]), // CS
         .USBPU              ()
     );
 
@@ -403,9 +403,9 @@ assign GPIO[5] = clk_out; // shift register
 		.rst				(~KEY[0]),
 		.en					(1'b1),
 		.parallel_in		(parallel_in[31:0]),
-		.serial				(GPIO[1]),
+		.serial				(GPIO[34]),
 		.output_en_l		(),
-		.rclk				(GPIO[3])
+		.rclk				(GPIO[30])
 	);
 
 
