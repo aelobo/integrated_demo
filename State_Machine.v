@@ -20,8 +20,8 @@ module State_Machine(
     input rotary_a,
     input rotary_b,
 
-    input          rotor_2_ring_increment,
-	input          rotor_1_ring_increment,
+    // input          rotor_2_ring_increment,
+	// input          rotor_1_ring_increment,
 
     // input          rotor_3_increment,
 	// input          rotor_2_increment,
@@ -134,8 +134,8 @@ module State_Machine(
         .rotor_num_2(rotor_num_2_temp), 
         .rotor_num_1(rotor_num_1_temp),
 
-        .rotor_2_ring_increment(rotor_2_ring_increment),
-        .rotor_1_ring_increment(rotor_1_ring_increment),
+        // .rotor_2_ring_increment(rotor_2_ring_increment),
+        // .rotor_1_ring_increment(rotor_1_ring_increment),
 
         .rotor_3_increment(rotor_3_increment),
         .rotor_2_increment(rotor_2_increment),

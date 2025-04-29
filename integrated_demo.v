@@ -311,8 +311,8 @@ assign GPIO[5] = clk_out; // shift register
         .rotor_num_2_en     (rotor_num_2_sel),
         .rotor_num_1_en     (rotor_num_1_sel),
 
-		.rotor_2_ring_increment (rotor_2_ring_increment),
-		.rotor_1_ring_increment (rotor_1_ring_increment),
+		// .rotor_2_ring_increment (rotor_2_ring_increment),
+		// .rotor_1_ring_increment (rotor_1_ring_increment),
 
 		.rotor_3_num_increment (rotor_3_num_increment),
 		.rotor_2_num_increment (rotor_2_num_increment),
